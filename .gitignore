@@ -13,6 +13,9 @@
 *.userosscache
 *.sln.docstates
 
+#Config files with API Keys for production
+appsettings.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
