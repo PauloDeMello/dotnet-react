@@ -17,7 +17,7 @@ namespace API.Controllers
         [HttpGet("{id}")] //api/activities/fdfeiowfjw
         public async Task<ActionResult<Activity>> GetActivity(Guid id)
         {
-            return await Mediator.Send(new Details.Query(id));
+            return await Mediator.Send(new Details.Query { Id = id });
         }
 
         [HttpPost] //api/activities/fdfeiowfjw
@@ -32,6 +32,13 @@ namespace API.Controllers
         {
             activity.Id = id;
             await Mediator.Send(new Edit.Command { Activity = activity });
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteActivity(Guid id) //Figures out creating the Activity from the request by itself
+        {
+            await Mediator.Send(new Delete.Command { Id = id });
             return Ok();
         }
 
