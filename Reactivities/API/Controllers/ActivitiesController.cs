@@ -1,6 +1,5 @@
 using Application.Activities;
 using Domain;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,6 +18,21 @@ namespace API.Controllers
         public async Task<ActionResult<Activity>> GetActivity(Guid id)
         {
             return await Mediator.Send(new Details.Query(id));
+        }
+
+        [HttpPost] //api/activities/fdfeiowfjw
+        public async Task<IActionResult> CreateActivity(Activity activity) //Figures out creating the Activity from the request by itself
+        {
+            await Mediator.Send(new Create.Command { Activity = activity });
+            return Ok();
+        }
+
+        [HttpPut("{id}")] //api/activities/fdfeiowfjw
+        public async Task<IActionResult> EditActivity(Guid id, Activity activity) //Figures out creating the Activity from the request by itself
+        {
+            activity.Id = id;
+            await Mediator.Send(new Edit.Command { Activity = activity });
+            return Ok();
         }
 
 
