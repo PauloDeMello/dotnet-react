@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useState } from 'react'
-import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 import { Activity } from '../models/activity';
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import { v4 as uuid } from 'uuid';
+import agent from '../api/agent';
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]); { /*First param is value, second is the function used to set the value, [] means no initial states*/ }
@@ -12,9 +12,15 @@ function App() {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    axios.get<Activity[]>('http://localhost:5000/api/activities')
+    agent.Activities.list()
       .then(response => {
-        setActivities(response.data);
+        let activities: Activity[] = [];
+        response.forEach(activity => {
+          activity.date = activity.date.split('T')[0];
+          activities.push(activity);
+        }
+        )
+        setActivities(activities);
       })
   }, []); { /*Second parameter are the dependencies, so when a dependency changes, the useEffect method gets called again */ }
 
