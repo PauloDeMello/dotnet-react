@@ -5,11 +5,13 @@ import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import { v4 as uuid } from 'uuid';
 import agent from '../api/agent';
+import LoadingComponent from './LoadingComponents';
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]); { /*First param is value, second is the function used to set the value, [] means no initial states*/ }
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     agent.Activities.list()
@@ -21,6 +23,7 @@ function App() {
         }
         )
         setActivities(activities);
+        setLoading(false);
       })
   }, []); { /*Second parameter are the dependencies, so when a dependency changes, the useEffect method gets called again */ }
 
@@ -56,6 +59,8 @@ function App() {
     /*deconstructs array and adds all values except the one where the id matches*/
     setActivities([...activities.filter(x => x.id !== id)])
   }
+
+  if (loading) return <LoadingComponent content='Loading app' />
 
   return (
     <Fragment> {/* We can only return one "return styled" component, e.g navbar or container. So we encapsulate all within one component (div/frag). */}
