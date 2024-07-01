@@ -15,11 +15,12 @@ interface Props {
     closeForm: () => void;
     createOrEdit: (activity: Activity) => void;
     deleteActivity: (id: string) => void;
+    submitting: boolean;
 
 }
 
 export default function ActivityDashboard({ activities, selectedActivity,
-    selectActivity, cancelSelectActivity, editMode, openForm, closeForm, createOrEdit, deleteActivity }: Props) { /* { activities }: Props destructures prop: Props, so we no longer need prop.activities*/
+    selectActivity, cancelSelectActivity, editMode, openForm, closeForm, createOrEdit, deleteActivity, submitting }: Props) { /* { activities }: Props destructures prop: Props, so we no longer need prop.activities*/
     return (
         <Grid>
             <Grid.Column width="10">
@@ -36,8 +37,12 @@ export default function ActivityDashboard({ activities, selectedActivity,
                         openForm={openForm}
                     />} {/*&& means that the code on the right only runs if variable on left is not null*/}
                 {editMode &&
-                    <ActivityForm createOrEdit={createOrEdit} closeForm={closeForm} activity={selectedActivity} />
-                }
+                    <ActivityForm
+                        createOrEdit={createOrEdit}
+                        closeForm={closeForm}
+                        activity={selectedActivity}
+                        submitting={submitting}
+                    />}
             </Grid.Column>
         </Grid>
     )

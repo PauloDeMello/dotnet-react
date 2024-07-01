@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { Activity } from '../models/activity';
 
+//This class is used to persist / post data to the server
+
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
         setTimeout(resolve, delay)
@@ -12,6 +14,7 @@ axios.defaults.baseURL = 'http://localhost:5000/api'
 //Axios intercepts let you intercept responses and have callbacks when you get one.
 //The interceptor function below adds a one second delay after getting the response then passes the response on.
 //Used to simulate server delay etc (to help us work with loading animations etc).
+
 axios.interceptors.response.use(async response => {
     try {
         await sleep(1000);
@@ -32,7 +35,12 @@ const requests = {
 }
 
 const Activities = {
-    list: () => requests.get<Activity[]>('/activities')
+    list: () => requests.get<Activity[]>('/activities'),
+    details: (id: string) => requests.get<Activity>(`/activities/${id}`),
+    create: (activity: Activity) => requests.post<void>('/activities', activity),
+    update: (activity: Activity) => requests.put<void>(`/activities/${activity.id}`, activity),
+    delete: (id: string) => requests.del<void>(`/activities/${id}`),
+
 }
 
 const agent = {
