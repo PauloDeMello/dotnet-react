@@ -121,7 +121,7 @@ The Persistence project handles the relationship between the db and the entity c
 
 In this project we use the DbContext service:
 - DbContext sets up the relationship between the Entity and the backend db
-- It also adds a layer of abstraction, meaning we can change backend db simply.
+- It also adds a layer of abstraction, meaning we can change the backend db simply.
 
 ```
 services.AddDbContext<DataContext>(opt  =>
@@ -131,7 +131,7 @@ services.AddDbContext<DataContext>(opt  =>
 ```
 Here we are setting up the DbContext to use Sqlite as our backend db.
 
-- GetConnectionString("DefaultConnection") refers to our appsettings.json file where we have an entry
+- GetConnectionString("DefaultConnection") refers to our appsettings.json file where we have an explicit connection string for the specified backend db:
 ``` 
 "ConnectionStrings": 
 {
