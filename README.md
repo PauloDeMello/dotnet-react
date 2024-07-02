@@ -57,15 +57,15 @@ cd ..
 dotnet restore
  ```
 ## API 
-The API project contains the Controller, which describes all the API endpoints 
-- ActivitiesController class, creates an endpoint called Activities. 
-- Each method in this class has an attribute describing what type of operation it is e.g **[HttpGet("{id}"]** for getting an entity with the id parameter -> **//api/activities/id**
-- We use MediatR to call the Application Commands / Queries with inputted data.
+The API project contains the Controller, which describes all the API endpoints.
+- An EndpointNameController class, creates an endpoint called EndpointName, e.g //api/endpointname/
+- Each method in this class has an attribute describing what type of operation it is e.g `[HttpGet("{id}"]` for getting an entity with the id parameter -> `//api/activities/id`
+- In each endpoint function we use MediatR to call the Application Commands / Queries (with inputted data).
 
 Created with `dotnet new webapi -n API --use-controllers`
 
 ## Application
-The Application project contains the actual methods to perform requests on the database.
+The Application project contains the actual methods and logic to perform requests on the database.
 We use MediatR and CQRS patterns to do this.
 For each operation we have a separate class that follows the MediatR IRequest structure.
 
