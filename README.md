@@ -57,7 +57,7 @@ cd ..
 dotnet restore
  ```
 ## API 
-The API for this project contains the Controller for the API which describes all the API endpoints 
+The API project contains the Controller, which describes all the API endpoints 
 - ActivitiesController class, creates an endpoint called Activities. 
 - Each method in this class has an attribute describing what type of operation it is e.g **[HttpGet("{id}"]** for getting an entity with the id parameter -> **//api/activities/id**
 - We use MediatR to call the Application Commands / Queries with inputted data.
