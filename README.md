@@ -58,7 +58,7 @@ dotnet restore
  ```
 ## API 
 The API project contains the Controller, which describes all the API endpoints.
-- An EndpointNameController class, creates an endpoint called EndpointName, e.g //api/endpointname/
+- An EndpointNameController class, creates an endpoint called EndpointName, e.g `//api/endpointname/`
 - Each method in this class has an attribute describing what type of operation it is e.g `[HttpGet("{id}"]` for getting an entity with the id parameter -> `//api/activities/id`
 - In each endpoint function we use MediatR to call the Application Commands / Queries (with inputted data).
 
