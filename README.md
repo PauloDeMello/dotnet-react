@@ -57,15 +57,15 @@ cd ..
 dotnet restore
  ```
 ## API 
-The API project contains the Controller, which describes all the API endpoints.
-- An EndpointNameController class, creates an endpoint called EndpointName, e.g `//api/endpointname/`
-- Each method in this class has an attribute describing what type of operation it is e.g `[HttpGet("{id}"]` for getting an entity with the id parameter -> `//api/activities/id`
-- In each endpoint function we use MediatR to call the Application Commands / Queries (with inputted data).
+The API for this project contains the Controller for the API which describes all the API endpoints 
+- ActivitiesController class, creates an endpoint called Activities. 
+- Each method in this class has an attribute describing what type of operation it is e.g **[HttpGet("{id}"]** for getting an entity with the id parameter -> **//api/activities/id**
+- We use MediatR to call the Application Commands / Queries with inputted data.
 
 Created with `dotnet new webapi -n API --use-controllers`
 
 ## Application
-The Application project contains the actual methods and logic to perform requests on the database.
+The Application project contains the actual methods to perform requests on the database.
 We use MediatR and CQRS patterns to do this.
 For each operation we have a separate class that follows the MediatR IRequest structure.
 
@@ -121,7 +121,7 @@ The Persistence project handles the relationship between the db and the entity c
 
 In this project we use the DbContext service:
 - DbContext sets up the relationship between the Entity and the backend db
-- It also adds a layer of abstraction, meaning we can change the backend db simply.
+- It also adds a layer of abstraction, meaning we can change backend db simply.
 
 ```
 services.AddDbContext<DataContext>(opt  =>
@@ -131,7 +131,7 @@ services.AddDbContext<DataContext>(opt  =>
 ```
 Here we are setting up the DbContext to use Sqlite as our backend db.
 
-- GetConnectionString("DefaultConnection") refers to our appsettings.json file where we have an explicit connection string for the specified backend db:
+- GetConnectionString("DefaultConnection") refers to our appsettings.json file where we have an entry
 ``` 
 "ConnectionStrings": 
 {
@@ -149,3 +149,60 @@ We need two members in this class for it to be set up correctly
 2) A member `DbSet` member with the type being your Entity class and the name representing the db table name.
 `public  DbSet<Activity> Activities { get; set; }`
 
+${EndPointName}Controller class, creates an endpoint called ${EndointName}.
+
+# Chapter 2 - Frontend
+## Overview and structure
+In this project we utilise several front end libraries and tools:
+- React (+vite)
+- Semantic-UI (React)
+- Axios
+- MobX 
+## React
+React is a JS-written library, which simplifies a lot of ugly DOM manipulation and state/variable tracking.
+
+### Key Points:
+**Component based architecture**
+-  React allows you to build out components into separate files to maintain a clean code base.
+- Components can also be reused across the application, allowing for less boilerplate code.
+
+**Virtual DOM**
+- React uses a virtual representation of the DOM, which means that we can figure out which components need to be re-rendered and _only_ re-render those components (performance saves).
+
+**Unidirectional data flow**
+- In React, data can only flow in one direction meaning that Props (data) are passed down from parent to child. 
+- The parent can modify the Prop state, and the child can only pass it on or read it.
+	- This makes debugging and understanding the dataflow much easier.
+- This means that (prop) States are managed at the highest level and only relevant Props (data) are passed to the relevant component.
+	- However this means that nested components may receive ALOT of Props that they don't directly use (Prop drilling). This can be resolved using State management systems (Redux/MobX).
+
+**JSX Syntax**
+- React uses JSX syntax for its components allowing HTML-esque syntax to work with JS.
+
+**vite.js**
+- We use vite to scaffold and create our React apps/projects (and sets up the servers for running the apps).
+
+## Semantic-UI-React
+Semantic UI is a library that introduces us to several React components out of the box (kind of like bootstrap but for React).
+
+## Axios
+We use axios (over fetch) to persist / post data to the .NET server.
+**Key points**
+- Axios allows us to use interceptors. Interceptors allow us to modify requests or responses before they are handled by then or catch.
+- Straight forward.
+
+## MobX
+We use MobX as a state management system, so that we don't need to drill down so many props between components.
+
+We set up a "store" which contains our applications Observables (States/Props/variables) , Actions (methods for states/props) and Computeds (fancy get methods for computed values).
+
+We need to set up our component classes to be Observers and tell them which Observables (States/Props) they need to track/"observe".
+- We do this by wrapping them in the observer method
+```
+export  default  observer(function  ActivityList() {
+//component body
+})
+```
+
+We can deconstruct and call observables / actions from our store using:
+`const { observable1, action1, observable2, computed1 } =  genericStore;`
