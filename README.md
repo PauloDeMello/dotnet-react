@@ -57,15 +57,15 @@ cd ..
 dotnet restore
  ```
 ## API 
-The API for this project contains the Controller for the API which describes all the API endpoints 
-- ActivitiesController class, creates an endpoint called Activities. 
-- Each method in this class has an attribute describing what type of operation it is e.g **[HttpGet("{id}"]** for getting an entity with the id parameter -> **//api/activities/id**
-- We use MediatR to call the Application Commands / Queries with inputted data.
+The API project contains the Controller, which describes all the API endpoints.
+- An EndpointNameController class, creates an endpoint called EndpointName, e.g `//api/endpointname/`
+- Each method in this class has an attribute describing what type of operation it is e.g `[HttpGet("{id}"]` for getting an entity with the id parameter -> `//api/activities/id`
+- In each endpoint function we use MediatR to call the Application Commands / Queries (with inputted data).
 
 Created with `dotnet new webapi -n API --use-controllers`
 
 ## Application
-The Application project contains the actual methods to perform requests on the database.
+The Application project contains the actual methods and logic to perform requests on the database.
 We use MediatR and CQRS patterns to do this.
 For each operation we have a separate class that follows the MediatR IRequest structure.
 
@@ -121,7 +121,7 @@ The Persistence project handles the relationship between the db and the entity c
 
 In this project we use the DbContext service:
 - DbContext sets up the relationship between the Entity and the backend db
-- It also adds a layer of abstraction, meaning we can change backend db simply.
+- It also adds a layer of abstraction, meaning we can change the backend db simply.
 
 ```
 services.AddDbContext<DataContext>(opt  =>
@@ -131,7 +131,7 @@ services.AddDbContext<DataContext>(opt  =>
 ```
 Here we are setting up the DbContext to use Sqlite as our backend db.
 
-- GetConnectionString("DefaultConnection") refers to our appsettings.json file where we have an entry
+- GetConnectionString("DefaultConnection") refers to our appsettings.json file where we have an explicit connection string for the specified backend db:
 ``` 
 "ConnectionStrings": 
 {
@@ -148,8 +148,6 @@ We need two members in this class for it to be set up correctly
 
 2) A member `DbSet` member with the type being your Entity class and the name representing the db table name.
 `public  DbSet<Activity> Activities { get; set; }`
-
-${EndPointName}Controller class, creates an endpoint called ${EndointName}.
 
 # Chapter 2 - Frontend
 ## Overview and structure
